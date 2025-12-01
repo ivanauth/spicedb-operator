@@ -78,9 +78,29 @@ Now you can use zed to interact with SpiceDB:
 zed --insecure --endpoint=localhost:50051 --token=averysecretpresharedkey schema read
 ```
 
+## Using an Alternative Container Registry
+
+If you need to use a private or alternative container registry (e.g., for air-gapped environments or to use a registry proxy), you can specify the `baseImage` field in your `SpiceDBCluster`:
+
+```yaml
+apiVersion: authzed.com/v1alpha1
+kind: SpiceDBCluster
+metadata:
+  name: dev
+spec:
+  # Use your alternative registry
+  baseImage: "my-registry.company.com/authzed/spicedb"
+  version: "v1.33.0"
+  config:
+    datastoreEngine: postgres
+  secretName: dev-spicedb-config
+```
+
+The operator will use your specified base image and append the appropriate tag based on the `version` or `channel` you specify. See the [alternative registry example](examples/alternative-registry) for more details.
+
 ## Where To Go From Here
 
-- Check out the [examples](examples) directory to see how to configure `SpiceDBCluster` for production, including datastore backends, TLS, and Ingress.
+- Check out the [examples](examples) directory to see how to configure `SpiceDBCluster` for production, including datastore backends, TLS, Ingress, and alternative registries.
 - Learn how to use SpiceDB via the [docs](https://docs.authzed.com/) and [playground](https://play.authzed.com/).
 - Ask questions and join the community in [discord](https://authzed.com/discord).
 
